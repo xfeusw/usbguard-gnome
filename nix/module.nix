@@ -12,7 +12,7 @@ in {
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = pkg;
+      default = pkgs.callPackage ./package.nix {};
       description = "Package providing the usbguard-gnome UI/applet.";
     };
 
