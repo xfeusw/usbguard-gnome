@@ -29,6 +29,7 @@ in
       pygobject3
       pycairo
       pyparsing
+      dbus-python
     ];
 
     nativeBuildInputs = [
