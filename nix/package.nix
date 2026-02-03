@@ -22,11 +22,12 @@ in
       owner = "6E006B";
       repo = "usbguard-gnome";
       rev = "26d300b";
-      sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+      sha256 = "sha256-dAJqkWwsuYgQRejzHRF1JnvO8ecogZa0MNdxgijD2qg==";
     };
 
     propagatedBuildInputs = with py.pkgs; [
-      pygobject
+      pygobject3
+      pycairo
       pyparsing
     ];
 
@@ -44,8 +45,8 @@ in
     ];
 
     buildPhase = ''
-      runhook preBuild
-      ${py.interpreter} -m compileAll -q .
+      runHook preBuild
+      ${py.interpreter} -m compileall -q .
       runHook postBuild
     '';
 
@@ -75,10 +76,6 @@ in
       chmod +x $out/bin/usbguard-gnome-window $out/bin/usbguard-gnome-applet
 
       runHook postInstall
-    '';
-
-    preFixup = ''
-      glib-compile-schemas $out/share/glib-2.0/schemas
     '';
 
     meta = with lib; {

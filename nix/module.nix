@@ -5,7 +5,7 @@
   ...
 }: let
   cfg = config.services.usbguardGnome;
-  pkg = pkgs.callPackage ./package.nix;
+  pkg = pkgs.callPackage ./package.nix {};
 in {
   options.services.usbguardGnome = {
     enable = lib.mkEnableOption "USBGuard GNOME UI/applet";
