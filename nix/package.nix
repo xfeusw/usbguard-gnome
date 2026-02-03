@@ -5,18 +5,25 @@
   python3,
   wrapGAppsHook3,
   gobject-introspection,
+  libnotify,
+  gsettings-desktop-schemas,
   glib,
   gtk3,
   libappindicator-gtk3,
   usbguard,
   polkit,
 }: let
-  py = python3;
+  py = python3.withPackages (ps:
+    with ps; [
+      pygobject3
+      pycairo
+      pyparsing
+      dbus-python
+    ]);
 in
-  py.pkgs.buildPythonApplication rec {
+  stdenv.mkDerivation rec {
     pname = "usbguard-gnome";
     version = "unstable-26d300b";
-    format = "other";
 
     src = fetchFromGitHub {
       owner = "6E006B";
@@ -24,13 +31,6 @@ in
       rev = "26d300b";
       sha256 = "sha256-dAJqkWwsuYgQRejzHRF1JnvO8ecogZa0MNdxgijD2qg==";
     };
-
-    propagatedBuildInputs = with py.pkgs; [
-      pygobject3
-      pycairo
-      pyparsing
-      dbus-python
-    ];
 
     nativeBuildInputs = [
       wrapGAppsHook3
@@ -41,6 +41,8 @@ in
     buildInputs = [
       gtk3
       libappindicator-gtk3
+      libnotify
+      gsettings-desktop-schemas
       usbguard
       polkit
     ];
@@ -77,6 +79,10 @@ in
       chmod +x $out/bin/usbguard-gnome-window $out/bin/usbguard-gnome-applet
 
       runHook postInstall
+    '';
+
+    postInstall = ''
+      glib-compile-schemas $out/share/glib-2.0/schemas
     '';
 
     meta = with lib; {
