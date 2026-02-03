@@ -31,6 +31,8 @@
       in {
         formatter = pkgs.nixfmt-rfc-style;
 
+        devShells.default = import ./shell.nix {inherit pkgs;};
+
         packages = {
           usbguard-gnome =
             if isLinux
