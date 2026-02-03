@@ -32,6 +32,7 @@ in
     packages = [
       py
       pkgs.glib
+      pkgs.glib.dev
       pkgs.gobject-introspection
       pkgs.gtk3
       pkgs.libnotify
@@ -47,14 +48,16 @@ in
       set -euo pipefail
 
       export PYTHONNOUSERSITE=1
-      export PYTHONPATH="$PWD/src''${PYTHONPATH:+:}$PYTHONPATH"
+
+      export PYTHONPATH="''${PYTHONPATH-}"
+      export PYTHONPATH="$PWD/src''${PYTHONPATH:+:}''$PYTHONPATH"
 
       export GI_TYPELIB_PATH="${giTypelibPath}''${GI_TYPELIB_PATH:+:}$GI_TYPELIB_PATH"
       export XDG_DATA_DIRS="${xdgDataDirs}''${XDG_DATA_DIRS:+:}$XDG_DATA_DIRS"
 
       mkdir -p .dev-schemas
       cp -f src/org.gnome.usbguard.gschema.xml .dev-schemas/
-      ${pkgs.glib}/bin/glib-compile-schemas .dev-schemas
+      ${pkgs.glib.dev}/bin/glib-compile-schemas .dev-schemas
       export GSETTINGS_SCHEMA_DIR="$PWD/.dev-schemas"
 
       echo "Dev shell ready."

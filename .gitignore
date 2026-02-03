@@ -3,6 +3,7 @@
 .nix-*
 .direnv/
 .envrc.bak
+.dev-schemas/
 
 __pycache__/
 *.py[cod]

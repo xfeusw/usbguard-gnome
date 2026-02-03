@@ -28,10 +28,11 @@
       }: let
         isLinux = pkgs.stdenv.hostPlatform.isLinux;
         pkg = pkgs.callPackage ./nix/package.nix {};
+        shell = import ./nix/shell.nix {inherit pkgs;};
       in {
         formatter = pkgs.nixfmt-rfc-style;
 
-        devShells.default = import ./shell.nix {inherit pkgs;};
+        devShells.default = shell;
 
         packages = {
           usbguard-gnome =
